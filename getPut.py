@@ -5,8 +5,10 @@ import sys
 import logging
 import boto3
 from flask import Flask, render_template, request # make sure to package this in
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 
 @app.route('/', methods=['PUT', 'GET'])
