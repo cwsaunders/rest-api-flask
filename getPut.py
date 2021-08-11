@@ -11,7 +11,7 @@ app = Flask(__name__)
 CORS(app)
 
 
-@app.route('/', methods=['PUT', 'GET'])
+@app.route('/index', methods=['PUT', 'GET'])
 def apiPut(event):
     if request.method == 'PUT':
         db_name = "webforum"
