@@ -64,7 +64,8 @@ def apiPut(event):
     if request.method == 'GET':
         logger = logging.getLogger()
         logger.setLevel(logging.INFO)
-
+        db_host = 'vd1qir7pjuw93jl.cusyzimfrxgh.us-east-1.rds.amazonaws.com'
+        db_user = 'admin'
         ssm_client = boto3.client('ssm')
         response = ssm_client.get_parameter(
             Name='web-forum-database-saunders',
@@ -72,9 +73,9 @@ def apiPut(event):
         )
         db_password = response['Parameter']['Value']
         try:
-            cnx = pymysql.connect(user=os.environ['USER'],
+            cnx = pymysql.connect(user=db_user,
                                 password=db_password,
-                                host=os.environ['HOST'],
+                                host=db_host,
                                 database='webforum',
                                 port=3306)
         except pymysql.MySQLError as e:
