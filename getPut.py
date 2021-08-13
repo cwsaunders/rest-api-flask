@@ -22,7 +22,7 @@ def apiPut(event):
 
         ssm_client = boto3.client('ssm')
         response = ssm_client.get_parameter(
-            Name='web-forum-database',
+            Name='web-forum-database-saunders',
             WithDecryption=True
         )
         db_password = response['Parameter']['Value']
@@ -67,7 +67,7 @@ def apiPut(event):
 
         ssm_client = boto3.client('ssm')
         response = ssm_client.get_parameter(
-            Name='web-forum-database',
+            Name='web-forum-database-saunders',
             WithDecryption=True
         )
         db_password = response['Parameter']['Value']
