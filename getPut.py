@@ -16,7 +16,7 @@ def apiPut(event):
         db_name = "webforum"
         db_port = 3306
         db_user = 'admin'
-        db_host = 'vd1ju04cu0pert8.cusyzimfrxgh.us-east-1.rds.amazonaws.com'
+        db_host = 'vd1qir7pjuw93jl.cusyzimfrxgh.us-east-1.rds.amazonaws.com'
         logger = logging.getLogger()
         logger.setLevel(logging.INFO)
 
