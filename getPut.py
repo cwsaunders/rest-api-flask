@@ -20,12 +20,9 @@ def apiPut(event):
         logger = logging.getLogger()
         logger.setLevel(logging.INFO)
 
-        ssm_client = boto3.client('ssm')
-        response = ssm_client.get_parameter(
-            Name='web-forum-database-saunders',
-            WithDecryption=True
-        )
-        db_password = response['Parameter']['Value']
+        secretsclient = boto3.client('secretsmanager')
+        response = secretsclient.get_secret_value(SecretId='web-forum-database-saunders')
+        db_password = response['SecretString']
         try:
             conn = pymysql.connect(
                 user=db_user, password=db_password, host=db_host,
@@ -66,12 +63,9 @@ def apiPut(event):
         logger.setLevel(logging.INFO)
         db_host = 'vd1qir7pjuw93jl.cusyzimfrxgh.us-east-1.rds.amazonaws.com'
         db_user = 'admin'
-        ssm_client = boto3.client('ssm')
-        response = ssm_client.get_parameter(
-            Name='web-forum-database-saunders',
-            WithDecryption=True
-        )
-        db_password = response['Parameter']['Value']
+        secretsclient = boto3.client('secretsmanager')
+        response = secretsclient.get_secret_value(SecretId='web-forum-database-saunders')
+        db_password = response['SecretString']
         try:
             cnx = pymysql.connect(user=db_user,
                                 password=db_password,
