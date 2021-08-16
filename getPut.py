@@ -11,7 +11,7 @@ app = Flask(__name__)
 CORS(app)
 
 @app.route('/create', methods=['PUT'])
-def apiPut(event):
+def apiPut():
     if request.method == 'PUT':
         db_name = "webforum"
         db_port = 3306
@@ -57,7 +57,7 @@ def apiPut(event):
 
 
 @app.route('/saved', methods=['GET'])
-def apiPut(event):
+def apiGet():
     if request.method == 'GET':
         logger = logging.getLogger()
         logger.setLevel(logging.INFO)
