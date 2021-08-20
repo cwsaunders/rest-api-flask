@@ -55,7 +55,12 @@ def apiPut():
             }
         }
 
-
+@app.route('/health', methods=['GET'])
+def apiHealth():
+    if request.method == 'GET':
+        return '200'
+    
+    
 @app.route('/saved', methods=['GET'])
 def apiGet():
     if request.method == 'GET':
