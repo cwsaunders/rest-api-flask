@@ -24,7 +24,8 @@ def apiPut():
 
         secretsclient = boto3.client('secretsmanager')
         response = secretsclient.get_secret_value(SecretId='web-forum-database-saunders')
-        db_password = json.loads(response['SecretString'][2])
+        db_secrets = json.loads(response['SecretString'])
+        db_password = db_secrets['password']
         print("Definitely NOT the password length")
         print(len(db_password))
         print(db_password)
@@ -78,7 +79,8 @@ def apiGet():
         db_user = 'admin'
         secretsclient = boto3.client('secretsmanager')
         response = secretsclient.get_secret_value(SecretId='web-forum-database-saunders')
-        db_password = json.loads(response['SecretString'][2])
+        db_secrets = json.loads(response['SecretString'])
+        db_password = db_secrets['password']
         print("Definitely NOT the password length")
         print(len(db_password))
         print(db_password)
