@@ -43,8 +43,8 @@ def apiPut():
         """
         if statusCode == 200:
             try:
-                body = json.loads(request.form['options']['body']['params']['body'])
-                title = json.loads(request.form['options']['body']['params']['title'])
+                body = json.loads(request.form['options']['params']['body'])
+                title = json.loads(request.form['options']['params']['title'])
                 with conn.cursor() as cur:
                     cur.execute("INSERT INTO thread (title, body) VALUES (%s, %s)", (title, body))
                 conn.commit()
