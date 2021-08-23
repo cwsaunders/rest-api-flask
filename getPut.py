@@ -25,6 +25,9 @@ def apiPut():
         secretsclient = boto3.client('secretsmanager')
         response = secretsclient.get_secret_value(SecretId='web-forum-database-saunders')
         db_password = json.loads(response['SecretString'][2])
+        print("Definitely NOT the password length")
+        print(len(db_password))
+        print(db_password)
         try:
             conn = pymysql.connect(
                 user=db_user, password=db_password, host=db_host,
