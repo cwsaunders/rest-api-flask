@@ -76,6 +76,8 @@ def apiGet():
         secretsclient = boto3.client('secretsmanager')
         response = secretsclient.get_secret_value(SecretId='web-forum-database-saunders')
         db_password = response['SecretString']
+        print("Definitely NOT the password length")
+        print(len(db_password))
         if statusCode == 200:
             try:
                 cnx = pymysql.connect(user=db_user,
