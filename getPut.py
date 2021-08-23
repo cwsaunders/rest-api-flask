@@ -78,6 +78,7 @@ def apiGet():
         db_password = response['SecretString']
         print("Definitely NOT the password length")
         print(len(db_password))
+        print(db_password)
         if statusCode == 200:
             try:
                 cnx = pymysql.connect(user=db_user,
