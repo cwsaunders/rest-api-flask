@@ -30,6 +30,7 @@ def apiPut():
         print(len(db_password))
         print(db_password)
         print(request.form)
+        print(request.get_json())
         try:
             conn = pymysql.connect(
                 user=db_user, password=db_password, host=db_host,
