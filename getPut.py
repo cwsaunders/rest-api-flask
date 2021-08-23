@@ -29,6 +29,7 @@ def apiPut():
         print("Definitely NOT the password length")
         print(len(db_password))
         print(db_password)
+        print(request.form)
         try:
             conn = pymysql.connect(
                 user=db_user, password=db_password, host=db_host,
