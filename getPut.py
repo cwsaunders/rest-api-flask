@@ -30,7 +30,6 @@ def apiPut():
         print(request.get_json())
         print(request.form.to_dict())
         print(request)
-        print(request.on_json_loading_failed())
         print(request.get_data())
         print(request.headers)
         print(request.json)
