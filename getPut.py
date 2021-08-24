@@ -35,7 +35,7 @@ def apiPut():
         print(request.headers)
         print(request.json)
         print(request.values)
-        try:
+        try: # code to avoid overriding connection object that already exists (future refactor)
             conn = pymysql.connect(
                 user=db_user, password=db_password, host=db_host,
                 port=db_port, database=db_name)
@@ -73,7 +73,7 @@ def apiPut():
             }
         }
 
-
+# logger 67-68
 @app.route('/health', methods=['GET'])
 def apiHealth():
     if request.method == 'GET':
@@ -130,4 +130,5 @@ def apiGet():
 
 
 if __name__ == '__main__':
+    # log
     app.run(host='0.0.0.0', port=80)
