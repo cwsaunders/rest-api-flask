@@ -119,7 +119,7 @@ def apiGet():
                     return_body = [{'id': thread_id, 'title': title, 'body': body}
                                 for thread_id, title, body in cur]
                     print("success building table && retrieving objects")
-                    print(return_body)
+                    print(json.dumps(return_body))
             except Exception as e:
                 print('enter exception block for create table')
                 logger.error('Fatal exception occurred.', exc_info=e)
