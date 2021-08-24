@@ -26,9 +26,6 @@ def apiPut():
         response = secretsclient.get_secret_value(SecretId='web-forum-database-saunders')
         db_secrets = json.loads(response['SecretString'])
         db_password = db_secrets['password']
-        print("Definitely NOT the password length")
-        print(len(db_password))
-        print(db_password)
         print(request.form)
         print(request.get_json())
         print(request.form.to_dict())
@@ -84,9 +81,6 @@ def apiGet():
         response = secretsclient.get_secret_value(SecretId='web-forum-database-saunders')
         db_secrets = json.loads(response['SecretString'])
         db_password = db_secrets['password']
-        print("Definitely NOT the password length")
-        print(len(db_password))
-        print(db_password)
         if statusCode == 200:
             try:
                 cnx = pymysql.connect(user=db_user,
