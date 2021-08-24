@@ -61,7 +61,7 @@ def apiPut():
             except Exception as e:
                 logger.error('Fatal exception occurred.', exc_info=e)
                 statusCode = 500
-        elif:
+        elif continueProgram == False:
             print("not entering body & title try block area")
         return {
             "statusCode": statusCode, 
