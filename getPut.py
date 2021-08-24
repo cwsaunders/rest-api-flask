@@ -34,6 +34,9 @@ def apiPut():
         print(request.headers)
         print(request.json)
         print(request.values)
+        print(request.data)
+        reqDecode = request.data.decode('UTF-8')
+        reqDict = json.loads(reqDecode)
         try: # code to avoid overriding connection object that already exists (future refactor)
             conn = pymysql.connect(
                 user=db_user, password=db_password, host=db_host,
@@ -50,8 +53,8 @@ def apiPut():
         if continueProgram == True:
             try:
                 print('enter json load try block')
-                body = json.loads(request.form['params']['body'])
-                title = json.loads(request.form['params']['title'])
+                body = json.loads(request.form['body'])
+                title = json.loads(request.form['title'])
                 print(title, body)
                 with conn.cursor() as cur:
                     cur.execute("INSERT INTO thread (title, body) VALUES (%s, %s)", (title, body))
