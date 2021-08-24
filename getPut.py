@@ -85,7 +85,7 @@ def apiHealth():
 @app.route('/saved', methods=['GET'])
 def apiGet():
     if request.method == 'GET':
-        statusCode = 200
+        continueProgram = True
         logger = logging.getLogger()
         logger.setLevel(logging.INFO)
         db_host = 'vd1qir7pjuw93jl.cusyzimfrxgh.us-east-1.rds.amazonaws.com'
@@ -94,7 +94,7 @@ def apiGet():
         response = secretsclient.get_secret_value(SecretId='web-forum-database-saunders')
         db_secrets = json.loads(response['SecretString'])
         db_password = db_secrets['password']
-        if statusCode == 200:
+        if continueProgram == True:
             try:
                 cnx = pymysql.connect(user=db_user,
                                     password=db_password,
@@ -107,14 +107,14 @@ def apiGet():
                 logger.error(e)
                 statusCode = 505
             logger.info("SUCCESS: Connection to RDS MySQL instance succeeded")
-        if statusCode == 200:
+        if continueProgram == True:
             try:
+                print("Enter 'get' cursor try block")
                 with cnx.cursor() as cur:
                     cur.execute("create table if not exists thread ( id int NOT NULL AUTO_INCREMENT, title varchar(255) NOT NULL, body varchar(255) NOT NULL, PRIMARY KEY (id))")
                     cur.execute('select * from thread limit 100')
                     return_body = [{'id': thread_id, 'title': title, 'body': body}
                                 for thread_id, title, body in cur]
-                statusCode = 200
             except Exception as e:
                 logger.error('Fatal exception occurred.', exc_info=e)
                 statusCode = 500
