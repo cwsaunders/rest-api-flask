@@ -101,6 +101,7 @@ def apiGet():
                                     host=db_host,
                                     database='webforum',
                                     port=3306)
+                print("connected to rds")
             except pymysql.MySQLError as e:
                 logger.error(
                     "ERROR: Unexpected error: Could not connect to MySQL instance.")
@@ -115,6 +116,7 @@ def apiGet():
                     cur.execute('select * from thread limit 100')
                     return_body = [{'id': thread_id, 'title': title, 'body': body}
                                 for thread_id, title, body in cur]
+                    print("success building table && retrieving objects")
             except Exception as e:
                 logger.error('Fatal exception occurred.', exc_info=e)
                 statusCode = 500
