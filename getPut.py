@@ -14,7 +14,7 @@ CORS(app)
 @app.route('/create', methods=['PUT'])
 def apiPut():
     if request.method == 'PUT':
-        statusCode = 200
+        continueProgram = True
         db_name = "webforum"
         db_port = 3306
         db_user = 'admin'
@@ -43,11 +43,12 @@ def apiPut():
             logger.error("ERROR: Unexpected error: Could not connect to MySQL instance.")
             logger.error(e)
             statusCode = 505
+            continueProgram = False
         logger.info("SUCCESS: Connection to RDS MySQL instance succeeded")
         """
         This function PUTs content to a MySQL RDS instance
         """
-        if statusCode == 200:
+        if continueProgram == True:
             try:
                 print('enter json load try block')
                 body = json.loads(request.form['params']['body'])
@@ -60,6 +61,8 @@ def apiPut():
             except Exception as e:
                 logger.error('Fatal exception occurred.', exc_info=e)
                 statusCode = 500
+        elif:
+            print("not entering body & title try block area")
         return {
             "statusCode": statusCode, 
             "headers": {
