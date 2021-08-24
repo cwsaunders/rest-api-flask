@@ -108,8 +108,8 @@ def apiGet():
                     "ERROR: Unexpected error: Could not connect to MySQL instance.")
                 logger.error(e)
                 statusCode = 505
+                continueProgram = False
             logger.info("SUCCESS: Connection to RDS MySQL instance succeeded")
-            continueProgram = False
         if continueProgram == True:
             try:
                 print("Enter 'get' cursor try block")
