@@ -102,12 +102,14 @@ def apiGet():
                                     database='webforum',
                                     port=3306)
                 print("connected to rds")
+                statusCode = 200
             except pymysql.MySQLError as e:
                 logger.error(
                     "ERROR: Unexpected error: Could not connect to MySQL instance.")
                 logger.error(e)
                 statusCode = 505
             logger.info("SUCCESS: Connection to RDS MySQL instance succeeded")
+            continueProgram = False
         if continueProgram == True:
             try:
                 print("Enter 'get' cursor try block")
@@ -121,6 +123,7 @@ def apiGet():
                 logger.error('Fatal exception occurred.', exc_info=e)
                 statusCode = 500
                 return_body = []
+                continueProgram = False
         return {
             "statusCode": statusCode,
             "headers": { 
