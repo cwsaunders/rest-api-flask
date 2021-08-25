@@ -120,7 +120,6 @@ def apiGet():
                                 for thread_id, title, body in cur]
                     print("success building table && retrieving objects")
                     print(json.dumps(return_body))
-                    print(json.loads(return_body))
             except Exception as e:
                 print('enter exception block for create table')
                 logger.error('Fatal exception occurred.', exc_info=e)
@@ -135,7 +134,7 @@ def apiGet():
                 "Access-Control-Allow-Origin": "*",
                 "Access-Control-Allow-Methods": "OPTIONS,GET"
             },
-            "body": json.loads(return_body)
+            "body": return_body
         }
     
   
