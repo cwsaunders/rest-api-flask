@@ -53,8 +53,8 @@ def apiPut():
         if continueProgram == True:
             try:
                 print('enter json load try block')
-                body = json.dumps(reqDict['body'])
-                title = json.dumps(reqDict['title'])
+                body = reqDict['body'] # body = json.dumps(reqDict['body'])
+                title = reqDict['title'] # title = json.dumps(reqDict['title'])
                 print(title, body)
                 with conn.cursor() as cur:
                     cur.execute("INSERT INTO thread (title, body) VALUES (%s, %s)", (title, body))
