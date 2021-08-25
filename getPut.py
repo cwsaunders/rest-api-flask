@@ -53,7 +53,7 @@ def apiPut():
         if continueProgram == True:
             try:
                 print('enter json load try block')
-                body = json.dumps(reqDict['body']) # json.loads(request.form['body'])
+                body = json.dumps(reqDict['body'])
                 title = json.dumps(reqDict['title'])
                 print(title, body)
                 with conn.cursor() as cur:
@@ -136,8 +136,8 @@ def apiGet():
             },
             "body": return_body
         }
-    
-  
+
+
 if __name__ == '__main__':
     # log
     app.run(host='0.0.0.0', port=80)
