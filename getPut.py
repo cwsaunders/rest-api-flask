@@ -21,20 +21,10 @@ def apiPut():
         db_host = 'vd1qir7pjuw93jl.cusyzimfrxgh.us-east-1.rds.amazonaws.com'
         logger = logging.getLogger()
         logger.setLevel(logging.INFO)
-
         secretsclient = boto3.client('secretsmanager')
         response = secretsclient.get_secret_value(SecretId='web-forum-database-saunders')
         db_secrets = json.loads(response['SecretString'])
         db_password = db_secrets['password']
-        print(request.form)
-        print(request.get_json())
-        print(request.form.to_dict())
-        print(request)
-        print(request.get_data())
-        print(request.headers)
-        print(request.json)
-        print(request.values)
-        print(request.data)
         reqDecode = request.data.decode('UTF-8')
         reqDict = json.loads(reqDecode)
         try: # code to avoid overriding connection object that already exists (future refactor)
@@ -52,10 +42,8 @@ def apiPut():
         """
         if continueProgram == True:
             try:
-                print('enter json load try block')
-                body = reqDict['body'] # body = json.dumps(reqDict['body'])
-                title = reqDict['title'] # title = json.dumps(reqDict['title'])
-                print(title, body)
+                body = reqDict['body']
+                title = reqDict['title']
                 with conn.cursor() as cur:
                     cur.execute("INSERT INTO thread (title, body) VALUES (%s, %s)", (title, body))
                 conn.commit()
@@ -101,7 +89,6 @@ def apiGet():
                                     host=db_host,
                                     database='webforum',
                                     port=3306)
-                print("connected to rds")
                 statusCode = 200
             except pymysql.MySQLError as e:
                 logger.error(
@@ -112,16 +99,12 @@ def apiGet():
             logger.info("SUCCESS: Connection to RDS MySQL instance succeeded")
         if continueProgram == True:
             try:
-                print("Enter 'get' cursor try block")
                 with cnx.cursor() as cur:
                     #cur.execute("create table if not exists thread ( id int NOT NULL AUTO_INCREMENT, title varchar(255) NOT NULL, body varchar(255) NOT NULL, PRIMARY KEY (id))")
                     cur.execute('select * from thread limit 100')
                     return_body = [{"id": thread_id, "title": title, "body": body}
                                 for thread_id, title, body in cur]
-                    print("success building table && retrieving objects")
-                    print(json.dumps(return_body))
             except Exception as e:
-                print('enter exception block for create table')
                 logger.error('Fatal exception occurred.', exc_info=e)
                 statusCode = 500
                 return_body = []
