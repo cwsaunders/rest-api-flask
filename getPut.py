@@ -15,16 +15,20 @@ CORS(app)
 def apiPut():
     if request.method == 'PUT':
         continueProgram = True
+        # gather rds link
+        secretsclient = boto3.client('secretsmanager')
+        linkResponse = secretsclient.get_secret_value(SecretId='web-forum-database-saunders-2')
+        db_link_json = json.loads(linkResponse['SecretString'])
+        # set mysql connect parameters
         db_name = "webforum"
         db_port = 3306
-        db_user = 'admin'
-        db_host = 'vd1qir7pjuw93jl.cusyzimfrxgh.us-east-1.rds.amazonaws.com'
+        db_host = db_link_json['link']
         logger = logging.getLogger()
         logger.setLevel(logging.INFO)
-        secretsclient = boto3.client('secretsmanager')
         response = secretsclient.get_secret_value(SecretId='web-forum-database-saunders')
         db_secrets = json.loads(response['SecretString'])
         db_password = db_secrets['password']
+        db_user = db_secrets['username']
         reqDecode = request.data.decode('UTF-8')
         reqDict = json.loads(reqDecode)
         try: # code to avoid overriding connection object that already exists (future refactor)
@@ -74,14 +78,16 @@ def apiHealth():
 def apiGet():
     if request.method == 'GET':
         continueProgram = True
+        secretsclient = boto3.client('secretsmanager')
+        linkResponse = secretsclient.get_secret_value(SecretId='web-forum-database-saunders-2')
+        db_link_json = json.loads(linkResponse['SecretString'])
         logger = logging.getLogger()
         logger.setLevel(logging.INFO)
-        db_host = 'vd1qir7pjuw93jl.cusyzimfrxgh.us-east-1.rds.amazonaws.com'
-        db_user = 'admin'
-        secretsclient = boto3.client('secretsmanager')
+        db_host = db_link_json['link']
         response = secretsclient.get_secret_value(SecretId='web-forum-database-saunders')
         db_secrets = json.loads(response['SecretString'])
         db_password = db_secrets['password']
+        db_user = db_secrets['username']
         if continueProgram == True:
             try:
                 cnx = pymysql.connect(user=db_user,
@@ -122,5 +128,4 @@ def apiGet():
 
 
 if __name__ == '__main__':
-    # log
     app.run(host='0.0.0.0', port=80)
