@@ -107,7 +107,7 @@ def apiGet():
             try:
                 with cnx.cursor() as cur:
                     cur.execute("create table if not exists thread ( id int NOT NULL AUTO_INCREMENT, title varchar(255) NOT NULL, body varchar(255) NOT NULL, PRIMARY KEY (id))")
-                    cur.commit()
+                    cnx.commit()
                     cur.execute('select * from thread limit 100')
                     return_body = [{"id": thread_id, "title": title, "body": body}
                                 for thread_id, title, body in cur]
