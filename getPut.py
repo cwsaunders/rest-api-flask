@@ -15,25 +15,16 @@ CORS(app)
 def apiPut():
     if request.method == 'PUT':
         continueProgram = True
-        # gather rds link
-        secretsclient = boto3.client('secretsmanager')
-        linkResponse = secretsclient.get_secret_value(SecretId='web-forum-database-saunders-3')
-        db_link_json = json.loads(linkResponse['SecretString'])
         # set mysql connect parameters
         db_name = "webforum"
         db_port = 3306
-        db_host = db_link_json['link']
         logger = logging.getLogger()
         logger.setLevel(logging.INFO)
-        response = secretsclient.get_secret_value(SecretId='web-forum-database-saunders')
-        db_secrets = json.loads(response['SecretString'])
-        db_password = db_secrets['password']
-        db_user = db_secrets['username']
         reqDecode = request.data.decode('UTF-8')
         reqDict = json.loads(reqDecode)
         try: # code to avoid overriding connection object that already exists (future refactor)
             conn = pymysql.connect(
-                user=db_user, password=db_password, host=db_host,
+                user=os.environ['user'], password=os.environ['password'], host=os.environ['host'],
                 port=db_port, database=db_name)
         except pymysql.MySQLError as e:
             logger.error("ERROR: Unexpected error: Could not connect to MySQL instance.")
@@ -78,21 +69,13 @@ def apiHealth():
 def apiGet():
     if request.method == 'GET':
         continueProgram = True
-        secretsclient = boto3.client('secretsmanager')
-        linkResponse = secretsclient.get_secret_value(SecretId='web-forum-database-saunders-3')
-        db_link_json = json.loads(linkResponse['SecretString'])
         logger = logging.getLogger()
         logger.setLevel(logging.INFO)
-        db_host = db_link_json['link']
-        response = secretsclient.get_secret_value(SecretId='web-forum-database-saunders')
-        db_secrets = json.loads(response['SecretString'])
-        db_password = db_secrets['password']
-        db_user = db_secrets['username']
         if continueProgram == True:
             try:
-                cnx = pymysql.connect(user=db_user,
-                                    password=db_password,
-                                    host=db_host,
+                cnx = pymysql.connect(user=os.environ['user'],
+                                    password=os.environ['password'],
+                                    host=os.environ['host'],
                                     database='webforum',
                                     port=3306)
                 statusCode = 200
