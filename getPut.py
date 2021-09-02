@@ -17,7 +17,7 @@ def apiPut():
         continueProgram = True
         # gather rds link
         secretsclient = boto3.client('secretsmanager')
-        linkResponse = secretsclient.get_secret_value(SecretId='web-forum-database-saunders-2')
+        linkResponse = secretsclient.get_secret_value(SecretId='web-forum-database-saunders-3')
         db_link_json = json.loads(linkResponse['SecretString'])
         # set mysql connect parameters
         db_name = "webforum"
@@ -79,7 +79,7 @@ def apiGet():
     if request.method == 'GET':
         continueProgram = True
         secretsclient = boto3.client('secretsmanager')
-        linkResponse = secretsclient.get_secret_value(SecretId='web-forum-database-saunders-2')
+        linkResponse = secretsclient.get_secret_value(SecretId='web-forum-database-saunders-3')
         db_link_json = json.loads(linkResponse['SecretString'])
         logger = logging.getLogger()
         logger.setLevel(logging.INFO)
